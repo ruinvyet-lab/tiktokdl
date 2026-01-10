@@ -33,7 +33,7 @@ async function downloadVideo() {
     try {
         const res = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${url}`)
 
-        if (data.code === 0) {
+        if (res.data === 0) {
             document.getElementById('thumbnail').src = res.data.result.cover
             document.getElementById('videoTitle').innerText = res.data.result.title || "Video TikTok";
             document.getElementById('videoAuthor').innerText = `@${res.data.result.data.fullname}`;
