@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Downloader | Prime Xuu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme"> <nav>
+        <div class="nav-container">
+            <div class="logo">PRIME<span>XUU</span></div>
+            <div class="theme-switch-wrapper">
+                <i class="fas fa-sun"></i>
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="profile-section">
+            <div class="avatar-wrapper">
+                <img src="https://files.catbox.moe/m69lle.jpeg" alt="Avatar" class="avatar">
+                <div class="status-dot"></div>
+            </div>
+            <h1>TikTok Downloader</h1>
+            <p>Unduh video favoritmu tanpa watermark secepat kilat ⚡</p>
+        </div>
+
+        <div class="glass-card input-section">
+            <div class="input-group">
+                <input type="text" id="videoUrl" placeholder="Tempel link video TikTok di sini...">
+                <button onclick="downloadVideo()" id="btnDownload">
+                    <i class="fas fa-bolt"></i> Unduh
+                </button>
+            </div>
+        </div>
+
+        <div id="loader" class="loader" style="display: none;">
+            <div class="spinner"></div>
+            <p>Sedang memproses data...</p>
+        </div>
+
+        <div id="result" class="result-card" style="display: none;">
+            <div class="video-info">
+                <img id="thumbnail" src="" alt="Thumbnail">
+                <div class="text-info">
+                    <h3 id="videoTitle">Judul Video</h3>
+                    <p id="videoAuthor">@username</p>
+                    <a id="downloadBtn" href="#" class="btn-success">
+                        <i class="fas fa-cloud-download-alt"></i> Download MP4 (No WM)
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 <span>PRIME XUU⚡</span>. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

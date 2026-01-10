@@ -1,0 +1,219 @@
+:root {
+    --bg-color: #f8f9fa;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --accent: #fe2c55;
+    --success: #00d084;
+    --shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.dark-theme {
+    --bg-color: #0f1012;
+    --card-bg: rgba(30, 31, 34, 0.7);
+    --text-primary: #ffffff;
+    --text-secondary: #a1a1a6;
+    --shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: background 0.4s ease, color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* Navbar & Theme Switcher */
+nav {
+    padding: 20px 0;
+}
+
+.nav-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.logo span { color: var(--accent); }
+
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.theme-switch input { display: none; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px; width: 18px;
+    left: 4px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(24px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* Main Container */
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+/* Avatar Section */
+.avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--accent);
+    padding: 5px;
+    background: var(--card-bg);
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    background: var(--success);
+    border: 3px solid var(--bg-color);
+    border-radius: 50%;
+}
+
+/* Card & Inputs */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    background: rgba(0,0,0,0.05);
+    padding: 8px;
+    border-radius: 16px;
+}
+
+.dark-theme .input-group { background: rgba(255,255,255,0.05); }
+
+input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding-left: 15px;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Result Card */
+.result-card {
+    margin-top: 30px;
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 20px;
+    animation: slideUp 0.5s ease;
+}
+
+.video-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    text-align: left;
+}
+
+#thumbnail {
+    width: 120px;
+    border-radius: 12px;
+}
+
+.btn-success {
+    display: inline-block;
+    margin-top: 15px;
+    background: var(--success);
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    margin-top: 50px;
+    padding: 30px;
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+footer span { font-weight: 800; color: var(--accent); }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 500px) {
+    .input-group { flex-direction: column; }
+    .video-info { flex-direction: column; text-align: center; }
+}
