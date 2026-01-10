@@ -1,3 +1,4 @@
+// Download Logic
 async function downloadVideo() {
     const url = document.getElementById('videoUrl').value;
     const loader = document.getElementById('loader');
@@ -13,37 +14,36 @@ async function downloadVideo() {
     loader.style.display = 'block';
     result.style.display = 'none';
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
     try {
-        // Menggunakan API Vreden
-        const response = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`);
-        
-        const data = response.data;
+        const res = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`);
 
-        // Cek apakah API memberikan respon sukses (Biasanya status 200 atau data.result ada)
-        if (data && data.status === 200 && data.result) {
-            const videoData = data.result;
+        // PERBAIKAN: Cek status keberhasilan dari API (biasanya status 200)
+        // Dan pastikan struktur data res.data.result sesuai dengan respon API
+        if (res.status === 200 && res.data.status === 200) {
+            const data = res.data.result; // Shortcut agar kode lebih bersih
 
-            // Update UI dengan data dari API
-            document.getElementById('thumbnail').src = videoData.metadata.cover || '';
-            document.getElementById('videoTitle').innerText = videoData.metadata.title || "Video TikTok";
-            document.getElementById('videoAuthor').innerText = videoData.metadata.author?.nickname ? `@${videoData.metadata.author.nickname}` : "Unknown";
+            document.getElementById('thumbnail').src = data.cover;
+            document.getElementById('videoTitle').innerText = data.title || "Video TikTok";
             
-            // Link download (mengambil video tanpa watermark)
+            // Sesuaikan path data.fullname jika error, pastikan field ini ada di API
+            document.getElementById('videoAuthor').innerText = `@${data.author?.nickname || 'User'}`;
+            
             const dlBtn = document.getElementById('downloadBtn');
-            dlBtn.href = videoData.download.nowm; // Menggunakan link No Watermark
+            // Pastikan menggunakan link video tanpa watermark yang benar
+            dlBtn.href = data.video || data.play; 
             
             loader.style.display = 'none';
             result.style.display = 'block';
         } else {
-            alert("Video tidak ditemukan. Pastikan link TikTok benar dan bersifat publik.");
+            alert("Video tidak ditemukan atau link salah.");
             loader.style.display = 'none';
         }
     } catch (error) {
-        console.error("Error Detail:", error);
-        // Jika API Down atau koneksi internet bermasalah
-        alert("Gagal menghubungi server atau API sedang gangguan. Coba lagi nanti.");
+        console.error("Detail Error:", error);
+        // Jika error 404 atau 500, pesan ini akan muncul
+        alert("Gagal menghubungi server atau API sedang down.");
         loader.style.display = 'none';
     } finally {
         btn.disabled = false;
