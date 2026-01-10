@@ -31,17 +31,15 @@ async function downloadVideo() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
     try {
-        const response = await fetch(`https://api.vreden.my.id/api/?url=${encodeURIComponent(url)}`);
-        const data = await response.json();
+        const res = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${url}`)
 
         if (data.code === 0) {
-            const video = data.data;
-            document.getElementById('thumbnail').src = video.cover;
-            document.getElementById('videoTitle').innerText = video.title || "Video TikTok";
-            document.getElementById('videoAuthor').innerText = `@${video.author.unique_id}`;
+            document.getElementById('thumbnail').src = res.data.result.cover
+            document.getElementById('videoTitle').innerText = res.data.result.title || "Video TikTok";
+            document.getElementById('videoAuthor').innerText = `@${res.data.result.data.fullname}`;
             
             const dlBtn = document.getElementById('downloadBtn');
-            dlBtn.href = "https://api.vreden.my.id" + video.play;
+            dlBtn.href = res.data.result.data.url
             
             loader.style.display = 'none';
             result.style.display = 'block';
