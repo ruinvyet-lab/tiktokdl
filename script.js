@@ -41,7 +41,7 @@ async function downloadVideo() {
             document.getElementById('videoAuthor').innerText = `@${video.author.unique_id}`;
             
             const dlBtn = document.getElementById('downloadBtn');
-            dlBtn.href = "https://www.tikwm.com" + video.play;
+            dlBtn.href = "https://api.vreden.my.id" + video.play;
             
             loader.style.display = 'none';
             result.style.display = 'block';
