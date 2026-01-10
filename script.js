@@ -31,7 +31,7 @@ async function downloadVideo() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
     try {
-        const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`https://api.vreden.my.id/api/?url=${encodeURIComponent(url)}`);
         const data = await response.json();
 
         if (data.code === 0) {
