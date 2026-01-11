@@ -1,4 +1,3 @@
-// Download Logic
 async function downloadVideo() {
     const url = document.getElementById('videoUrl').value;
     const loader = document.getElementById('loader');
@@ -14,25 +13,26 @@ async function downloadVideo() {
     loader.style.display = 'block';
     result.style.display = 'none';
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Proses...';
 
     try {
         const res = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`);
+        
+        // PERBAIKAN: Gunakan res.data untuk mengecek hasil
+        const responseData = res.data;
 
-        // PERBAIKAN: Cek status keberhasilan dari API (biasanya status 200)
-        // Dan pastikan struktur data res.data.result sesuai dengan respon API
-        if (res.status === 200 && res.data.status === 200) {
-            const data = res.data.result; // Shortcut agar kode lebih bersih
-
-            document.getElementById('thumbnail').src = data.cover;
-            document.getElementById('videoTitle').innerText = data.title || "Video TikTok";
+        if (responseData.result) {
+            const videoData = responseData.result;
             
-            // Sesuaikan path data.fullname jika error, pastikan field ini ada di API
-            document.getElementById('videoAuthor').innerText = `@${data.author?.nickname || 'User'}`;
+            // Update UI dengan data yang benar
+            document.getElementById('thumbnail').src = videoData.cover;
+            document.getElementById('videoTitle').innerText = videoData.title || "Video TikTok";
+            
+            // Perhatikan path data: sesuaikan dengan struktur asli API
+            document.getElementById('videoAuthor').innerText = videoData.author?.nickname || "TikTok User";
             
             const dlBtn = document.getElementById('downloadBtn');
-            // Pastikan menggunakan link video tanpa watermark yang benar
-            dlBtn.href = data.video || data.play; 
+            dlBtn.href = videoData.video || videoData.music; // Sesuaikan properti download
             
             loader.style.display = 'none';
             result.style.display = 'block';
@@ -41,9 +41,8 @@ async function downloadVideo() {
             loader.style.display = 'none';
         }
     } catch (error) {
-        console.error("Detail Error:", error);
-        // Jika error 404 atau 500, pesan ini akan muncul
-        alert("Gagal menghubungi server atau API sedang down.");
+        console.error("Error Detail:", error);
+        alert("Gagal menghubungi server. Pastikan API aktif.");
         loader.style.display = 'none';
     } finally {
         btn.disabled = false;
