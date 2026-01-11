@@ -1,39 +1,40 @@
-async function downloadVideo() {
-    const url = document.getElementById('videoUrl').value;
-    const loader = document.getElementById('loader');
-    const result = document.getElementById('result');
-    const btn = document.getElementById('btnDownload');
+async function downloadTiktok() {
+  const urlInput = document.getElementById("tiktokUrl").value.trim();
+  const resultArea = document.getElementById("result");
+  resultArea.innerHTML = "Processing...";
 
-    if (!url) {
-        alert("Masukkan link TikTok dulu bosku!");
-        return;
+  if (!urlInput) {
+    resultArea.innerHTML = "Masukkan URL TikTok!";
+    return;
+  }
+
+  try {
+    const apiUrl = "https://api.vreden.my.id/api/v1/download/tiktok";
+    const fullUrl = `${apiUrl}?url=${encodeURIComponent(urlInput)`;
+
+    const res = await fetch(fullUrl);
+    const data = await res.json();
+    console.log(data);
+
+    if (!data.result) {
+      resultArea.innerHTML = "Gagal mendapatkan video.";
+      return;
     }
 
-    // Show Loading
-    loader.style.display = 'block';
-    result.style.display = 'none';
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Proses...';
+    const videoUrl = data.result.play; // Link video
 
-    try {
-        const res = await axios.get(`https://api.vreden.my.id/api/v1/download/tiktok?url=${encodeURIComponent(url)}`);
-        
-        // PERBAIKAN: Gunakan res.data untuk mengecek hasil
-        const responseData = res.data;
+    resultArea.innerHTML = `
+      <p>Video ditemukan!</p>
+      <a href="${videoUrl}" target="_blank">Klik untuk download</a>
+      <br />
+      <video width="320" controls src="${videoUrl}"></video>
+    `;
 
-        if (responseData.result) {
-            const videoData = responseData.result;
-            
-            // Update UI dengan data yang benar
-            document.getElementById('thumbnail').src = videoData.cover;
-            document.getElementById('videoTitle').innerText = videoData.title || "Video TikTok";
-            
-            // Perhatikan path data: sesuaikan dengan struktur asli API
-            document.getElementById('videoAuthor').innerText = videoData.author?.nickname || "TikTok User";
-            
-            const dlBtn = document.getElementById('downloadBtn');
-            dlBtn.href = videoData.video || videoData.music; // Sesuaikan properti download
-            
+  } catch (err) {
+    console.error(err);
+    resultArea.innerHTML = "Terjadi kesalahan.";
+  }
+}
             loader.style.display = 'none';
             result.style.display = 'block';
         } else {
